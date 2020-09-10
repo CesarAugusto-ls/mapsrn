@@ -39,10 +39,12 @@ const Map = () => {
                         speed: position.coords.speed * 3.6,
                         latitudeDelta: 0.01,
                         longitudeDelta: 0.01,
+                        altitude: position.coords.altitude,
                     })
+                    console.log(position)
                 },
                 error => {
-                    console.log(error.code, error.message)
+                    console.log(`ERRO geolocation: ${error.code}, ${error.message}`)
                 })
         }
     }, [hasLocationPermission])
@@ -51,16 +53,18 @@ const Map = () => {
 
     return (
         <>
-            <SafeAreaView>
-
-            </SafeAreaView>
-            <View style={{ flex: 1 }}>
+            <SafeAreaView />
+            <View style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-around",
+            }}>
                 <View style={{
                     width: 64,
                     height: 64,
                     borderRadius: 32,
                     backgroundColor: '#2D59A9',
-                    margin: 32,
+                    marginTop: 32,
                     alignItems: "center",
                     justifyContent: "center",
                 }}>
@@ -85,9 +89,13 @@ const Map = () => {
                         km/h
                     </Text>
                 </View>
+                <View style={{ marginTop: 32, }}>
+                    <Text>Latitude: {userPosition ? userPosition.latitude : ''}</Text>
+                    <Text>Longitude: {userPosition ? userPosition.longitude : ''}</Text>
+                </View>
             </View>
             <MapView
-                style={{ flex: 4 }}
+                style={{ flex: 6 }}
                 region={userPosition}
                 loadingEnabled
                 showsUserLocation
